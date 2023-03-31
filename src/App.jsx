@@ -1,25 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+import styled from '@emotion/styled';
+import { AppBar, Toolbar, Typography } from '@mui/material';
+import { useState } from 'react';
+import SimulationResults from './SimulationResults';
+import Sliders from './Sliders';
 
-function App() {
+const App = ({ className }) => {
+  const [data, setData] = useState({
+    price: 400000,
+    input: 25000,
+    years: 20,
+    interestRate: 3,
+    insuranceRate: 0.15,
+    salary: 3000,
+  });
+
+  const updateValue = (key, val) => {
+    setData({ ...data, [key]: val });
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={className}>
+      <AppBar>
+        <Toolbar>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            Simulateur immobilier
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <div className="main">
+        <Sliders data={data} updateValue={updateValue} />
+        <SimulationResults data={data} />
+      </div>
     </div>
   );
-}
+};
 
-export default App;
+export default styled(App)`
+  .main {
+    margin-top: 80px;
+    display: flex;
+
+    > :first-of-type {
+      flex-basis: 25%;
+    }
+  }
+`;
