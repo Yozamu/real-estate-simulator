@@ -1,4 +1,6 @@
-import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import styled from '@emotion/styled';
+import MonthlyRadialBarChart from './MonthlyRadialBarChart';
+import ProjectCostPieChart from './ProjectCostPieChart';
 
 const SimulationResults = ({ className, data }) => {
   const { price, input, interestRate, insuranceRate, salary, years } = data;
@@ -12,7 +14,7 @@ const SimulationResults = ({ className, data }) => {
   ).toFixed(2);
   const monthlyInsuranceCost = (loanAmount * (insuranceRate / 100 / 12)).toFixed(2);
   const monthlyPayment = (+monthlyLoanCost + +monthlyInsuranceCost).toFixed(2);
-  const indebtedness = (monthlyPayment / salary).toFixed(2);
+  const indebtedness = (monthlyPayment / salary).toFixed(3);
   const doable = indebtedness <= 0.35;
 
   const interests = [loanAmount * ((0.01 * interestRate) / 12)];
@@ -29,75 +31,33 @@ const SimulationResults = ({ className, data }) => {
   const totalLoanCost = totalInterestCost + totalInsuranceCost;
   const totalCost = (totalLoanCost + notaryFees).toFixed();
 
-  const pieData = [
-    { name: 'Intérêts', value: totalInterestCost },
-    { name: 'Assurance', value: totalInsuranceCost },
-    { name: 'Frais de notaire', value: notaryFees },
-  ];
-
-  const COLORS = ['rgba(66, 165, 245, 0.75)', 'rgba(0, 194, 251, 0.75)', 'rgba(0, 217, 228, 0.75)'];
-
-  const RADIAN = Math.PI / 180;
-  const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-    return (
-      <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
-        {`${(percent * 100).toFixed(0)}%`}
-      </text>
-    );
-  };
-
-  const CustomTooltip = ({ active, payload, label }) => {
-    if (active && payload && payload.length) {
-      return (
-        <div className="custom-tooltip" style={{ backgroundColor: payload[0].payload.fill, padding: '8px' }}>
-          {`${payload[0].name} : ${payload[0].value}€`}
-        </div>
-      );
-    }
-
-    return null;
-  };
-
   return (
-    <div>
+    <div className={className}>
       <div>
-        Faisabilité du projet: <em style={{ color: doable ? 'lime' : 'red' }}>{doable ? 'OUI' : 'NON'}</em> (
-        {(indebtedness * 100).toFixed()}% d'endettement)
+        <div>Montant du prêt: {loanAmount}€</div>
+        <div>Coût total de l'opération: {totalCost}€</div>
+        <ProjectCostPieChart
+          totalInterestCost={totalInterestCost}
+          totalInsuranceCost={totalInsuranceCost}
+          notaryFees={notaryFees}
+        />
       </div>
-      <div>Montant du prêt: {loanAmount}€</div>
       <div>
-        Mensualité: {monthlyPayment}€ ({monthlyLoanCost}€ de prêt et {monthlyInsuranceCost}€ d'assurance)
-      </div>
-      <div>Coût total de l'opération: {totalCost}€</div>
-      <div style={{ width: '400px', height: '400px' }}>
-        <ResponsiveContainer width="100%" height="100%">
-          <PieChart width={400} height={400}>
-            <Pie
-              data={pieData}
-              cx="50%"
-              cy="50%"
-              labelLine={false}
-              label={renderCustomizedLabel}
-              outerRadius={150}
-              innerRadius={75}
-              fill="#fff"
-              dataKey="value"
-            >
-              {pieData.map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-            <Legend height={36} formatter={(value, entry, index) => <span style={{ color: 'white' }}>{value}</span>} />
-            <Tooltip content={<CustomTooltip />} />
-          </PieChart>
-        </ResponsiveContainer>
+        <div>
+          Faisabilité du projet: <em style={{ color: doable ? 'lime' : 'red' }}>{doable ? 'OUI' : 'NON'}</em> (
+          {(indebtedness * 100).toFixed()}% d'endettement)
+        </div>
+        <MonthlyRadialBarChart
+          salary={salary}
+          monthlyLoanCost={monthlyLoanCost}
+          monthlyInsuranceCost={monthlyInsuranceCost}
+          monthlyPayment={monthlyPayment}
+        />
       </div>
     </div>
   );
 };
 
-export default SimulationResults;
+export default styled(SimulationResults)`
+  display: flex;
+`;
