@@ -1,4 +1,4 @@
-import { PieChart, Pie, Sector, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 
 const SimulationResults = ({ className, data }) => {
   const { price, input, interestRate, insuranceRate, salary, years } = data;
@@ -27,7 +27,7 @@ const SimulationResults = ({ className, data }) => {
   const totalInterestCost = +interests.reduce((acc, curr) => acc + curr, 0).toFixed(2);
   const totalInsuranceCost = +(monthlyInsuranceCost * years * 12).toFixed(2);
   const totalLoanCost = totalInterestCost + totalInsuranceCost;
-  const totalCost = totalLoanCost + notaryFees;
+  const totalCost = (totalLoanCost + notaryFees).toFixed();
 
   const pieData = [
     { name: 'Intérêts', value: totalInterestCost },
@@ -65,15 +65,12 @@ const SimulationResults = ({ className, data }) => {
   return (
     <div>
       <div>
-        Faisabilité du projet: {doable ? 'OUI' : 'NON'} ({indebtedness * 100}% d'endettement)
+        Faisabilité du projet: <em style={{ color: doable ? 'lime' : 'red' }}>{doable ? 'OUI' : 'NON'}</em> (
+        {(indebtedness * 100).toFixed()}% d'endettement)
       </div>
       <div>Montant du prêt: {loanAmount}€</div>
       <div>
         Mensualité: {monthlyPayment}€ ({monthlyLoanCost}€ de prêt et {monthlyInsuranceCost}€ d'assurance)
-      </div>
-      <div>Frais de notaire: {notaryFees}€</div>
-      <div>
-        Coût total du prêt: {totalLoanCost}€ ({totalInterestCost}€ en intérêts, {totalInsuranceCost}€ en assurance)
       </div>
       <div>Coût total de l'opération: {totalCost}€</div>
       <div style={{ width: '400px', height: '400px' }}>
