@@ -1,7 +1,4 @@
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Pie } from 'react-chartjs-2';
-
-ChartJS.register(ArcElement, Tooltip, Legend);
+import { PieChart, Pie, Sector, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
 
 const SimulationResults = ({ className, data }) => {
   const { price, input, interestRate, insuranceRate, salary, years } = data;
@@ -32,31 +29,37 @@ const SimulationResults = ({ className, data }) => {
   const totalLoanCost = totalInterestCost + totalInsuranceCost;
   const totalCost = totalLoanCost + notaryFees;
 
-  const pieData = {
-    labels: ['Intérêts', 'Assurance', 'Frais de notaire'],
-    datasets: [
-      {
-        label: 'Montant',
-        data: [totalInterestCost, totalInsuranceCost, notaryFees],
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.25)',
-          'rgba(54, 162, 235, 0.25)',
-          'rgba(255, 206, 86, 0.25)',
-          'rgba(75, 192, 192, 0.2)',
-          'rgba(153, 102, 255, 0.2)',
-          'rgba(255, 159, 64, 0.2)',
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          'rgba(255, 206, 86, 1)',
-          'rgba(75, 192, 192, 1)',
-          'rgba(153, 102, 255, 1)',
-          'rgba(255, 159, 64, 1)',
-        ],
-        borderWidth: 1,
-      },
-    ],
+  const pieData = [
+    { name: 'Intérêts', value: totalInterestCost },
+    { name: 'Assurance', value: totalInsuranceCost },
+    { name: 'Frais de notaire', value: notaryFees },
+  ];
+
+  const COLORS = ['rgba(66, 165, 245, 0.75)', 'rgba(0, 194, 251, 0.75)', 'rgba(0, 217, 228, 0.75)'];
+
+  const RADIAN = Math.PI / 180;
+  const renderCustomizedLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, index }) => {
+    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+
+    return (
+      <text x={x} y={y} fill="white" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central">
+        {`${(percent * 100).toFixed(0)}%`}
+      </text>
+    );
+  };
+
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="custom-tooltip" style={{ backgroundColor: payload[0].payload.fill, padding: '8px' }}>
+          {`${payload[0].name} : ${payload[0].value}€`}
+        </div>
+      );
+    }
+
+    return null;
   };
 
   return (
@@ -73,8 +76,28 @@ const SimulationResults = ({ className, data }) => {
         Coût total du prêt: {totalLoanCost}€ ({totalInterestCost}€ en intérêts, {totalInsuranceCost}€ en assurance)
       </div>
       <div>Coût total de l'opération: {totalCost}€</div>
-      <div style={{ width: '500px' }}>
-        <Pie data={pieData} options={{ color: 'white' }} />
+      <div style={{ width: '400px', height: '400px' }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart width={400} height={400}>
+            <Pie
+              data={pieData}
+              cx="50%"
+              cy="50%"
+              labelLine={false}
+              label={renderCustomizedLabel}
+              outerRadius={150}
+              innerRadius={75}
+              fill="#fff"
+              dataKey="value"
+            >
+              {pieData.map((entry, index) => (
+                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+              ))}
+            </Pie>
+            <Legend height={36} formatter={(value, entry, index) => <span style={{ color: 'white' }}>{value}</span>} />
+            <Tooltip content={<CustomTooltip />} />
+          </PieChart>
+        </ResponsiveContainer>
       </div>
     </div>
   );
