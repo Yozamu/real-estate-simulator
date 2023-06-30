@@ -1,6 +1,7 @@
 import styled from '@emotion/styled';
 import MonthlyRadialBarChart from './MonthlyRadialBarChart';
 import ProjectCostPieChart from './ProjectCostPieChart';
+import LoanProgressionBarchart from './LoanProgressionBarChart';
 
 const SimulationResults = ({ className, data }) => {
   const { price, input, interestRate, insuranceRate, salary, years } = data;
@@ -34,8 +35,8 @@ const SimulationResults = ({ className, data }) => {
   return (
     <div className={className}>
       <div>
-        <div>Montant du prêt: {loanAmount}€</div>
         <div>Coût total de l'opération: {totalCost}€</div>
+        <br />
         <ProjectCostPieChart
           totalInterestCost={totalInterestCost}
           totalInsuranceCost={totalInsuranceCost}
@@ -53,6 +54,10 @@ const SimulationResults = ({ className, data }) => {
           monthlyInsuranceCost={monthlyInsuranceCost}
           monthlyPayment={monthlyPayment}
         />
+      </div>
+      <div>
+        <div>Montant du prêt: {loanAmount}€</div>
+        <LoanProgressionBarchart interests={interests} capital={capital} />
       </div>
     </div>
   );
