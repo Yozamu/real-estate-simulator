@@ -14,10 +14,12 @@ const CustomSlider = ({
 }) => {
   return (
     <div className={className}>
-      <Typography variant="h6">{label}</Typography>
-      <Typography variant="h5">
-        {value}
-        {suffix}
+      <Typography variant="h6">
+        {label}:{' '}
+        <strong>
+          {value}
+          {suffix}
+        </strong>
       </Typography>
       <Slider
         onChange={(e, newVal) => setValue(field, newVal)}
