@@ -49,6 +49,24 @@ const CoBuyerRadarChart = ({ className, data, loanAmount, monthlyPayment }) => {
       ]
     : [];
 
+  const CustomTooltip = ({ active, payload, label }) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="custom-tooltip" style={{ backgroundColor: payload[0].fill, padding: '8px' }}>
+          <div>{payload[0].payload.subject}</div>
+          <div>
+            {payload[0].name} : {payload[0].value}%
+          </div>
+          <div>
+            {payload[1].name} : {payload[1].value}%
+          </div>
+        </div>
+      );
+    }
+
+    return null;
+  };
+
   return (
     <div style={{ width: '400px', height: '400px' }}>
       <ResponsiveContainer width="100%" height="100%">
@@ -56,7 +74,13 @@ const CoBuyerRadarChart = ({ className, data, loanAmount, monthlyPayment }) => {
           <PolarGrid stroke="white" />
           <PolarAngleAxis dataKey="subject" stroke="white" />
           <PolarRadiusAxis angle={45} domain={[0, 100]} stroke="white" />
-          <Radar name="Emprunteur" dataKey="A" stroke="rgb(66, 165, 245)" fill="rgb(66, 165, 245)" fillOpacity={0.5} />
+          <Radar
+            name="Emprunteur"
+            dataKey="A"
+            stroke="rgba(66, 165, 245, 0.9)"
+            fill="rgba(66, 165, 245, 0.75)"
+            fillOpacity={0.5}
+          />
           <Radar
             name="Co-Emprunteur"
             dataKey="B"
@@ -65,7 +89,7 @@ const CoBuyerRadarChart = ({ className, data, loanAmount, monthlyPayment }) => {
             fillOpacity={0.25}
           />
           <Legend formatter={(value, entry, index) => <span style={{ color: 'white' }}>{value}</span>} />
-          <Tooltip />
+          <Tooltip content={<CustomTooltip />} />
         </RadarChart>
       </ResponsiveContainer>
     </div>

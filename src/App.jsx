@@ -47,8 +47,12 @@ export default styled(App)`
     display: flex;
 
     > :first-of-type {
-      flex-basis: 25%;
+      flex-basis: 40%;
+      min-width: 400px;
       margin-right: 24px;
+      position: sticky;
+      top: 80px;
+      align-self: flex-start;
     }
   }
 `;

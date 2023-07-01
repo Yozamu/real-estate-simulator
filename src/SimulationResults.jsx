@@ -4,6 +4,7 @@ import ProjectCostPieChart from './ProjectCostPieChart';
 import LoanProgressionBarchart from './LoanProgressionBarChart';
 import RentEquivalentAreaChart from './RentEquivalentAreaChart';
 import CoBuyerRadarChart from './CoBuyerRadarChart';
+import ProjectSpendingsLineChart from './ProjectSpendingsLineChart';
 
 const SimulationResults = ({ className, data }) => {
   const { price, input, interestRate, insuranceRate, salary, years, isCouple, coSalary, coInput } = data;
@@ -79,6 +80,11 @@ const SimulationResults = ({ className, data }) => {
       </div>
       <div>
         <CoBuyerRadarChart data={data} loanAmount={loanAmount} monthlyPayment={monthlyPayment} />
+        <div>Quotités et reste à vivre des emprunteurs</div>
+      </div>
+      <div>
+        <ProjectSpendingsLineChart data={data} monthlyPayment={monthlyPayment} />
+        <div>Dépenses engendrées par le projet</div>
       </div>
     </div>
   );
