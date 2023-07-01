@@ -3,9 +3,10 @@ import MonthlyRadialBarChart from './MonthlyRadialBarChart';
 import ProjectCostPieChart from './ProjectCostPieChart';
 import LoanProgressionBarchart from './LoanProgressionBarChart';
 import RentEquivalentAreaChart from './RentEquivalentAreaChart';
+import CoBuyerRadarChart from './CoBuyerRadarChart';
 
 const SimulationResults = ({ className, data }) => {
-  const { price, input, interestRate, insuranceRate, salary, years, isCouple, coSalary, coInput, coLoanPercent } = data;
+  const { price, input, interestRate, insuranceRate, salary, years, isCouple, coSalary, coInput } = data;
   const totalSalary = salary + (isCouple ? coSalary : 0);
   const totalInput = input + (isCouple ? coInput : 0);
   const notaryFees = price * 0.08;
@@ -75,6 +76,9 @@ const SimulationResults = ({ className, data }) => {
           capital={capital}
         />
         <div>Equivalence en loyer en cas de revente sans perte</div>
+      </div>
+      <div>
+        <CoBuyerRadarChart data={data} loanAmount={loanAmount} monthlyPayment={monthlyPayment} />
       </div>
     </div>
   );

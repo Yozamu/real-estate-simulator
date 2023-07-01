@@ -6,15 +6,15 @@ import Sliders from './Sliders';
 
 const App = ({ className }) => {
   const [data, setData] = useState({
-    price: 250000,
-    input: 30000,
+    price: 180000,
+    input: 40000,
     years: 20,
     interestRate: 3,
     insuranceRate: 0.15,
-    salary: 4000,
+    salary: 2600,
     isCouple: false,
-    coSalary: 0,
-    coInput: 0,
+    coSalary: 1600,
+    coInput: 5000,
     coLoanPercent: 50,
   });
 

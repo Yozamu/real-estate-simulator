@@ -60,7 +60,7 @@ const Sliders = ({ className, data, updateValue }) => {
         field="input"
         setValue={updateValue}
         min={0}
-        max={300000}
+        max={200000}
         step={5000}
         suffix="€"
       />
@@ -82,13 +82,13 @@ const Sliders = ({ className, data, updateValue }) => {
             field="coInput"
             setValue={updateValue}
             min={0}
-            max={300000}
+            max={200000}
             step={5000}
             suffix="€"
           />
           <CustomSlider
             value={data.coLoanPercent}
-            label="Pourcent crédit co-emprunteur"
+            label="% crédit co-emprunteur"
             field="coLoanPercent"
             setValue={updateValue}
             min={0}
