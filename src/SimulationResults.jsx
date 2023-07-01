@@ -5,9 +5,11 @@ import LoanProgressionBarchart from './LoanProgressionBarChart';
 import RentEquivalentAreaChart from './RentEquivalentAreaChart';
 
 const SimulationResults = ({ className, data }) => {
-  const { price, input, interestRate, insuranceRate, salary, years } = data;
+  const { price, input, interestRate, insuranceRate, salary, years, isCouple, coSalary, coInput, coLoanPercent } = data;
+  const totalSalary = salary + (isCouple ? coSalary : 0);
+  const totalInput = input + (isCouple ? coInput : 0);
   const notaryFees = price * 0.08;
-  const loanAmount = price - input + notaryFees;
+  const loanAmount = price - totalInput + notaryFees;
   const monthlyLoanCost = (
     (loanAmount * interestRate) /
     100 /
@@ -16,7 +18,7 @@ const SimulationResults = ({ className, data }) => {
   ).toFixed(2);
   const monthlyInsuranceCost = (loanAmount * (insuranceRate / 100 / 12)).toFixed(2);
   const monthlyPayment = (+monthlyLoanCost + +monthlyInsuranceCost).toFixed(2);
-  const indebtedness = (monthlyPayment / salary).toFixed(3);
+  const indebtedness = (monthlyPayment / totalSalary).toFixed(3);
   const doable = indebtedness <= 0.35;
 
   const interests = [loanAmount * ((0.01 * interestRate) / 12)];
@@ -50,7 +52,7 @@ const SimulationResults = ({ className, data }) => {
           {(indebtedness * 100).toFixed()}% d'endettement)
         </div>
         <MonthlyRadialBarChart
-          salary={salary}
+          salary={totalSalary}
           monthlyLoanCost={monthlyLoanCost}
           monthlyInsuranceCost={monthlyInsuranceCost}
           monthlyPayment={monthlyPayment}

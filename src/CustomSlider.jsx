@@ -44,7 +44,6 @@ const CustomSlider = ({
 };
 
 export default styled(CustomSlider)`
-  margin: 24px 16px;
   .range {
     display: flex;
     justify-content: space-between;

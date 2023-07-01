@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { AppBar, Toolbar, Typography } from '@mui/material';
+import { AppBar, Switch, Toolbar, Typography } from '@mui/material';
 import { useState } from 'react';
 import SimulationResults from './SimulationResults';
 import Sliders from './Sliders';
@@ -12,6 +12,10 @@ const App = ({ className }) => {
     interestRate: 3,
     insuranceRate: 0.15,
     salary: 4000,
+    isCouple: false,
+    coSalary: 0,
+    coInput: 0,
+    coLoanPercent: 50,
   });
 
   const updateValue = (key, val) => {
@@ -25,6 +29,8 @@ const App = ({ className }) => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Simulateur immobilier
           </Typography>
+          Avec co-emprunteur ?
+          <Switch color="default" checked={data.isCouple} onChange={(e) => updateValue('isCouple', e.target.checked)} />
         </Toolbar>
       </AppBar>
       <div className="main">

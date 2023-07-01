@@ -1,8 +1,9 @@
+import styled from '@emotion/styled';
 import CustomSlider from './CustomSlider';
 
-const Sliders = ({ data, updateValue }) => {
+const Sliders = ({ className, data, updateValue }) => {
   return (
-    <div>
+    <div className={className}>
       <CustomSlider
         value={data.price}
         label="Prix du bien"
@@ -11,16 +12,6 @@ const Sliders = ({ data, updateValue }) => {
         min={100000}
         max={600000}
         step={10000}
-        suffix="€"
-      />
-      <CustomSlider
-        value={data.input}
-        label="Apport"
-        field="input"
-        setValue={updateValue}
-        min={0}
-        max={300000}
-        step={5000}
         suffix="€"
       />
       <CustomSlider
@@ -59,12 +50,60 @@ const Sliders = ({ data, updateValue }) => {
         field="salary"
         setValue={updateValue}
         min={1000}
-        max={10000}
+        max={6000}
         step={200}
         suffix="€"
       />
+      <CustomSlider
+        value={data.input}
+        label="Apport"
+        field="input"
+        setValue={updateValue}
+        min={0}
+        max={300000}
+        step={5000}
+        suffix="€"
+      />
+      {data.isCouple && (
+        <>
+          <CustomSlider
+            value={data.coSalary}
+            label="Salaire co-emprunteur"
+            field="coSalary"
+            setValue={updateValue}
+            min={1000}
+            max={6000}
+            step={200}
+            suffix="€"
+          />
+          <CustomSlider
+            value={data.coInput}
+            label="Apport co-emprunteur"
+            field="coInput"
+            setValue={updateValue}
+            min={0}
+            max={300000}
+            step={5000}
+            suffix="€"
+          />
+          <CustomSlider
+            value={data.coLoanPercent}
+            label="Pourcent crédit co-emprunteur"
+            field="coLoanPercent"
+            setValue={updateValue}
+            min={0}
+            max={100}
+            step={5}
+            suffix="%"
+          />
+        </>
+      )}
     </div>
   );
 };
 
-export default Sliders;
+export default styled(Sliders)`
+  > div {
+    margin: ${(props) => (props.data.isCouple ? '12px 16px' : '24px 16px')};
+  }
+`;
