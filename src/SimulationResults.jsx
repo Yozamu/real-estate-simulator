@@ -23,7 +23,7 @@ const SimulationResults = ({ className, data }) => {
   const leftToPay = [loanAmount - capital[0]];
   for (let i = 1; i < years * 12; i++) {
     interests.push(leftToPay[i - 1] * ((0.01 * interestRate) / 12));
-    capital.push(monthlyPayment - interests[i]);
+    capital.push(monthlyLoanCost - interests[i]);
     leftToPay.push(leftToPay[i - 1] - capital[i]);
   }
 
@@ -57,7 +57,12 @@ const SimulationResults = ({ className, data }) => {
       </div>
       <div>
         <div>Montant du prêt: {loanAmount}€</div>
-        <LoanProgressionBarchart interests={interests} capital={capital} />
+        <LoanProgressionBarchart
+          interests={interests}
+          capital={capital}
+          loanAmount={loanAmount}
+          totalInterestCost={totalInterestCost}
+        />
       </div>
     </div>
   );

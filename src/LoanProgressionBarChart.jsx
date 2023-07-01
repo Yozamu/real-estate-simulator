@@ -1,6 +1,6 @@
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
-const LoanProgressionBarchart = ({ className, interests, capital }) => {
+const LoanProgressionBarchart = ({ className, interests, capital, loanAmount, totalInterestCost }) => {
   const data = [];
   const len = interests.length;
 
@@ -24,12 +24,24 @@ const LoanProgressionBarchart = ({ className, interests, capital }) => {
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
+      const interestsLeft = +payload[0].value;
+      const capitalLeft = +payload[1].value;
+      const totalLeft = interestsLeft + capitalLeft;
+      const percentOfInterestsLeft = ((interestsLeft / totalInterestCost) * 100).toFixed();
+      const percentOfCapitalLeft = ((capitalLeft / loanAmount) * 100).toFixed();
+      const percentLeft = ((totalLeft / (totalInterestCost + loanAmount)) * 100).toFixed();
       return (
         <div className="custom-tooltip" style={{ backgroundColor: payload[0].fill, padding: '8px' }}>
           <div>{payload[0].payload.name}</div>
-          <div>{`${payload[0].name} : ${payload[0].value}€`}</div>
-          <div>{`${payload[1].name} : ${payload[1].value}€`}</div>
-          <div>Total restant : {+payload[0].value + +payload[1].value}€</div>
+          <div>
+            {payload[0].name} : {interestsLeft}€ ({percentOfInterestsLeft}%)
+          </div>
+          <div>
+            {payload[1].name} : {capitalLeft}€ ({percentOfCapitalLeft}%)
+          </div>
+          <div>
+            Total restant : {totalLeft}€ ({percentLeft}%)
+          </div>
         </div>
       );
     }
