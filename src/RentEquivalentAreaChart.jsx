@@ -1,6 +1,6 @@
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-const RentEquivalentAreaChart = ({ className, notaryFees, totalInsuranceCost, interests }) => {
+const RentEquivalentAreaChart = ({ className, notaryFees, totalInsuranceCost, interests, capital }) => {
   const data = [];
   const len = interests.length;
 
@@ -9,20 +9,28 @@ const RentEquivalentAreaChart = ({ className, notaryFees, totalInsuranceCost, in
       .slice(0, i)
       .reduce((acc, curr) => acc + curr, 0)
       .toFixed();
+    const currentlyPaidCapital = +capital
+      .slice(0, i)
+      .reduce((acc, curr) => acc + curr, 0)
+      .toFixed();
+    const equivalent = +((currentlyPaidInterests + totalInsuranceCost + notaryFees) / i).toFixed(2);
     data.push({
       year: i / 12,
       name: `Année ${i / 12}`,
-      equivalent: +((currentlyPaidInterests + totalInsuranceCost + notaryFees) / i).toFixed(2),
+      equivalent,
+      equivalentWithCapital: +(equivalent + currentlyPaidCapital / i).toFixed(2),
     });
   }
 
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
-      const interestsLeft = +payload[0].value;
+      const equivalent = +payload[0].value;
+      const equivalentWithCapital = +payload[1].value;
       return (
         <div className="custom-tooltip" style={{ backgroundColor: payload[0].fill, padding: '8px' }}>
           <div>{payload[0].payload.name}</div>
-          <div>Equivalent loyer : {interestsLeft}€</div>
+          <div>Equivalent loyer : {equivalent}€</div>
+          <div>Avec capital : {equivalentWithCapital}€</div>
         </div>
       );
     }
@@ -48,7 +56,13 @@ const RentEquivalentAreaChart = ({ className, notaryFees, totalInsuranceCost, in
           <XAxis dataKey="year" stroke="white" />
           <YAxis stroke="white" />
           <Tooltip content={<CustomTooltip />} />
-          <Area type="monotone" dataKey="equivalent" stroke="rgba(0, 194, 251, 0.75)" fill="rgba(66, 165, 245, 0.75)" />
+          <Area type="monotone" dataKey="equivalent" stroke="rgba(0, 194, 251, 0.75)" fill="rgba(0, 194, 251, 0.75)" />
+          <Area
+            type="monotone"
+            dataKey="equivalentWithCapital"
+            stroke="rgba(0, 194, 251, 0.5)"
+            fill="rgba(0, 194, 251, 0.5)"
+          />
         </AreaChart>
       </ResponsiveContainer>
     </div>

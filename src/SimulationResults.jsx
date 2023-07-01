@@ -70,6 +70,7 @@ const SimulationResults = ({ className, data }) => {
           notaryFees={notaryFees}
           totalInsuranceCost={totalInsuranceCost}
           interests={interests}
+          capital={capital}
         />
         <div>Equivalence en loyer en cas de revente sans perte</div>
       </div>
