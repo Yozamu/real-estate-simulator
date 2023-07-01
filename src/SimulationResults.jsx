@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 import MonthlyRadialBarChart from './MonthlyRadialBarChart';
 import ProjectCostPieChart from './ProjectCostPieChart';
 import LoanProgressionBarchart from './LoanProgressionBarChart';
+import RentEquivalentAreaChart from './RentEquivalentAreaChart';
 
 const SimulationResults = ({ className, data }) => {
   const { price, input, interestRate, insuranceRate, salary, years } = data;
@@ -64,10 +65,26 @@ const SimulationResults = ({ className, data }) => {
           totalInterestCost={totalInterestCost}
         />
       </div>
+      <div>
+        <RentEquivalentAreaChart
+          notaryFees={notaryFees}
+          totalInsuranceCost={totalInsuranceCost}
+          interests={interests}
+        />
+        <div>Equivalence en loyer en cas de revente sans perte</div>
+      </div>
     </div>
   );
 };
 
 export default styled(SimulationResults)`
   display: flex;
+  flex-wrap: wrap;
+
+  > div {
+    text-align: center;
+    > div > div {
+      text-align: left;
+    }
+  }
 `;

@@ -42,6 +42,7 @@ export default styled(App)`
 
     > :first-of-type {
       flex-basis: 25%;
+      margin-right: 24px;
     }
   }
 `;
