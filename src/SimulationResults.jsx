@@ -5,6 +5,7 @@ import LoanProgressionBarchart from './LoanProgressionBarChart';
 import RentEquivalentAreaChart from './RentEquivalentAreaChart';
 import CoBuyerRadarChart from './CoBuyerRadarChart';
 import ProjectSpendingsLineChart from './ProjectSpendingsLineChart';
+import SavingsAreaChart from './SavingsAreaChart';
 
 const SimulationResults = ({ className, data }) => {
   const { price, input, interestRate, insuranceRate, salary, years, isCouple, coSalary, coInput } = data;
@@ -78,10 +79,17 @@ const SimulationResults = ({ className, data }) => {
         />
         <div>Equivalence en loyer en cas de revente sans perte</div>
       </div>
-      <div>
-        <CoBuyerRadarChart data={data} loanAmount={loanAmount} monthlyPayment={monthlyPayment} />
-        <div>Quotités et reste à vivre des emprunteurs</div>
-      </div>
+      {isCouple ? (
+        <div>
+          <CoBuyerRadarChart data={data} loanAmount={loanAmount} monthlyPayment={monthlyPayment} />
+          <div>Quotités et reste à vivre des emprunteurs</div>
+        </div>
+      ) : (
+        <div>
+          <SavingsAreaChart monthlyPayment={monthlyPayment} years={years} salary={salary} />
+          <div>Epargne en fonction des dépenses</div>
+        </div>
+      )}
       <div>
         <ProjectSpendingsLineChart data={data} monthlyPayment={monthlyPayment} />
         <div>Dépenses engendrées par le projet</div>
