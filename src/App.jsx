@@ -25,7 +25,7 @@ const App = ({ className }) => {
   return (
     <div className={className}>
       <AppBar>
-        <Toolbar>
+        <Toolbar className="header">
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Simulateur immobilier
           </Typography>
@@ -42,8 +42,12 @@ const App = ({ className }) => {
 };
 
 export default styled(App)`
+  .header {
+    min-height: 48px;
+  }
+
   .main {
-    margin-top: 80px;
+    margin-top: 64px;
     display: flex;
 
     > :first-of-type {
@@ -51,7 +55,7 @@ export default styled(App)`
       min-width: 400px;
       margin-right: 24px;
       position: sticky;
-      top: 80px;
+      top: 64px;
       align-self: flex-start;
     }
   }

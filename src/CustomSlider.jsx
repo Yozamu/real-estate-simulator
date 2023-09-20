@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
-import { Slider, Typography } from '@mui/material';
+import { KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
+import { IconButton, Slider, Typography } from '@mui/material';
 
 const CustomSlider = ({
   className,
@@ -11,16 +12,29 @@ const CustomSlider = ({
   min = 0,
   max = 100,
   suffix = '',
+  isAdjustable = false,
 }) => {
   return (
     <div className={className}>
-      <Typography variant="h6">
-        {label}:{' '}
-        <strong>
-          {value}
-          {suffix}
-        </strong>
-      </Typography>
+      <div className="slider-title">
+        <Typography variant="h6">
+          {label}:{' '}
+          <strong>
+            {value}
+            {suffix}
+          </strong>
+        </Typography>
+        {isAdjustable && (
+          <div>
+            <IconButton color="primary" onClick={() => setValue(field, value + step / 5)} size="small">
+              <KeyboardArrowUp />
+            </IconButton>
+            <IconButton color="primary" onClick={() => setValue(field, Math.max(0, value - step / 5))} size="small">
+              <KeyboardArrowDown />
+            </IconButton>
+          </div>
+        )}
+      </div>
       <Slider
         onChange={(e, newVal) => setValue(field, newVal)}
         marks
@@ -44,6 +58,12 @@ const CustomSlider = ({
 };
 
 export default styled(CustomSlider)`
+  .slider-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
   .range {
     display: flex;
     justify-content: space-between;

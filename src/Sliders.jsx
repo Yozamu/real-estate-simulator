@@ -13,6 +13,7 @@ const Sliders = ({ className, data, updateValue }) => {
         max={600000}
         step={10000}
         suffix="€"
+        isAdjustable
       />
       <CustomSlider
         value={data.years}
@@ -33,6 +34,7 @@ const Sliders = ({ className, data, updateValue }) => {
         max={5}
         step={0.1}
         suffix="%"
+        isAdjustable
       />
       <CustomSlider
         value={data.insuranceRate}
@@ -43,6 +45,7 @@ const Sliders = ({ className, data, updateValue }) => {
         max={0.5}
         step={0.05}
         suffix="%"
+        isAdjustable
       />
       <CustomSlider
         value={data.salary}
@@ -53,6 +56,7 @@ const Sliders = ({ className, data, updateValue }) => {
         max={6000}
         step={200}
         suffix="€"
+        isAdjustable
       />
       <CustomSlider
         value={data.input}
@@ -63,6 +67,7 @@ const Sliders = ({ className, data, updateValue }) => {
         max={200000}
         step={5000}
         suffix="€"
+        isAdjustable
       />
       {data.isCouple && (
         <>
@@ -75,6 +80,7 @@ const Sliders = ({ className, data, updateValue }) => {
             max={6000}
             step={200}
             suffix="€"
+            isAdjustable
           />
           <CustomSlider
             value={data.coInput}
@@ -85,6 +91,7 @@ const Sliders = ({ className, data, updateValue }) => {
             max={200000}
             step={5000}
             suffix="€"
+            isAdjustable
           />
           <CustomSlider
             value={data.coLoanPercent}
@@ -95,6 +102,7 @@ const Sliders = ({ className, data, updateValue }) => {
             max={100}
             step={5}
             suffix="%"
+            isAdjustable
           />
         </>
       )}
