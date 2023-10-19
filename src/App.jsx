@@ -37,6 +37,9 @@ const App = ({ className }) => {
         <Sliders data={data} updateValue={updateValue} />
         <SimulationResults data={data} />
       </div>
+      <a href="https://www.fgoumot.com/" target="_blank" rel="noreferrer">
+        Portfolio
+      </a>
     </div>
   );
 };
@@ -58,5 +61,12 @@ export default styled(App)`
       top: 64px;
       align-self: flex-start;
     }
+  }
+
+  a {
+    color: white;
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
   }
 `;
